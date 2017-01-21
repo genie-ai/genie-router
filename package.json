@@ -1,0 +1,39 @@
+{
+  "name": "genie-router",
+  "version": "0.1.0",
+  "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
+  "main": "router.js",
+  "scripts": {
+    "test": "standard",
+    "start": "./bin/genie-router",
+    "nodemon": "./node_modules/.bin/nodemon ./bin/genie-router"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/matueranet/genie-router.git"
+  },
+  "keywords": [
+    "genie",
+    "genie-ai",
+    "ai",
+    "artifical",
+    "intelligence",
+    "router",
+    "conversation",
+    "commands",
+    "hub"
+  ],
+  "author": "matueranet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/matueranet/genie-router/issues"
+  },
+  "homepage": "https://github.com/matueranet/genie-router#readme",
+  "dependencies": {
+    "bluebird": "3.4.7"
+  },
+  "devDependencies": {
+    "nodemon": "1.11.0",
+    "standard": "8.6.0"
+  }
+}
