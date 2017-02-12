@@ -2,6 +2,7 @@
 
 const cliPlugin = require('./lib/plugins/clients/cli')
 const echoPlugin = require('./lib/plugins/brains/echo')
+const getFromObject = require('./lib/utils/getFromObject')
 
 class Router {
 
@@ -22,7 +23,7 @@ class Router {
   _startClients () {
     var that = this
     return cliPlugin.start(
-      that._getConfig('plugins.cli'),
+      getFromObject(that.config, 'plugins.cli'),
       {
         heard: function (message) {
           that._processHeardInput({
@@ -39,7 +40,7 @@ class Router {
   _startBrains () {
     var that = this
     return echoPlugin.start(
-      this._getConfig('plugins.brains.echo')
+      getFromObject(that.config, 'plugins.brains.echo')
     ).then(function (brain) {
       that.brains.echo = brain
     })
@@ -51,28 +52,6 @@ class Router {
       .then(function (output) {
         return that.clients[input.plugin].speak(output)
       })
-  }
-
-  _getConfig (key, defaultVal) {
-    var val = this._readFromObject(this.config, key)
-    if (val !== undefined) {
-      return val
-    }
-    return defaultVal
-  }
-
-  _readFromObject (object, key) {
-    var parts = key.split('.', 2)
-    if (parts.length === 1) {
-      // there is no sublevel more to read
-      return object[parts[0]]
-    } else {
-      // the key demands more sublevels
-      if (object[parts[0]]) {
-        return this._readFromObject(object[parts[0]], parts[1])
-      }
-      return undefined
-    }
   }
 }
 
