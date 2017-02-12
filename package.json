@@ -6,7 +6,8 @@
   "scripts": {
     "test": "standard",
     "start": "./bin/genie-router",
-    "nodemon": "./node_modules/.bin/nodemon ./bin/genie-router"
+    "nodemon": "nodemon ./bin/genie-router",
+    "standard-fix": "standard --fix"
   },
   "repository": {
     "type": "git",

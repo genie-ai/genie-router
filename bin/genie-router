@@ -1,5 +1,9 @@
 #!/usr/bin/env node
 
-const router = require('../router')
+var Router = require('../router')
+var app = new Router({plugins: {cli: 1}})
 
-router.start()
+app.start()
+ .then(function() {
+   console.log('Ready...')
+ })
