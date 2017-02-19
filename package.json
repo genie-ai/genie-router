@@ -6,7 +6,7 @@
   "scripts": {
     "test": "standard",
     "start": "./bin/genie-router",
-    "nodemon": "nodemon ./bin/genie-router",
+    "nodemon": "nodemon ./bin/genie-router -c ./config.json",
     "standard-fix": "standard --fix"
   },
   "repository": {
@@ -32,6 +32,7 @@
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
     "bluebird": "3.4.7",
+    "node-telegram-bot-api": "^0.27.0",
     "read-config": "2.0.0",
     "yargs": "6.6.0"
   },

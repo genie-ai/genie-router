@@ -18,6 +18,24 @@ See [config.json.example](https://github.com/matueranet/genie-router/blob/develo
 
 See [read-config](https://www.npmjs.com/package/read-config) documentation for more details.
 
+### Clients
+
+#### Telegram
+
+The [Telegram bot API](https://core.telegram.org/bots/api) can be used as a client for input. Simply follow
+the instructions on the Telegram bot API explanation page to acquire a token for your bot. Place that token
+in your client configuration, for example
+
+```json
+{
+  "clients": {
+    "telegram": {
+      "token": "<token goes here>"
+    }
+  }
+}
+```
+
 #Docker
 
 Create image by running:

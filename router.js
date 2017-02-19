@@ -1,8 +1,12 @@
 'use strict'
 
-const cliPlugin = require('./lib/plugins/clients/cli')
 const echoPlugin = require('./lib/plugins/brains/echo')
 const getFromObject = require('./lib/utils/getFromObject')
+
+var clientPlugins = {
+  cli: require('./lib/plugins/clients/cli'),
+  telegram: require('./lib/plugins/clients/telegram')
+}
 
 class Router {
 
@@ -21,20 +25,36 @@ class Router {
   }
 
   _startClients () {
-    var that = this
-    return cliPlugin.start(
-      getFromObject(that.config, 'plugins.cli'),
-      {
-        heard: function (message) {
-          that._processHeardInput({
-            plugin: 'cli',
-            message: message
-          })
-        }
-      }
-    ).then(function (client) {
-      that.clients.cli = client
+    const that = this
+    const clients = ['cli', 'telegram']
+    var configuredClients = clients.filter(function (clientName) {
+      return getFromObject(that.config, 'clients.' + clientName) !== undefined
     })
+    var promises = []
+    configuredClients.forEach(function (clientName) {
+      promises.push(
+        clientPlugins[clientName].start(
+          getFromObject(that.config, 'clients.' + clientName),
+          that._getClientStartObjects(clientName)
+        ).then(function (client) {
+          that.clients[clientName] = client
+        })
+      )
+    })
+
+    return Promise.all(promises)
+  }
+
+  _getClientStartObjects(clientPluginName) {
+    const that = this
+    return {
+      heard: function (message) {
+        that._processHeardInput({
+          plugin: clientPluginName,
+          message: message
+        })
+      }
+    }
   }
 
   _startBrains () {
@@ -50,7 +70,9 @@ class Router {
     var that = this
     this.brains.echo.process(input.message)
       .then(function (output) {
-        return that.clients[input.plugin].speak(output)
+        var outputClone = JSON.parse(JSON.stringify(output))
+        outputClone.metadata = input.message.metadata
+        return that.clients[input.plugin].speak(outputClone)
       })
   }
 }
