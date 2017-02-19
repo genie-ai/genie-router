@@ -5,6 +5,19 @@ A generic platform that routes commands and conversations from voice or text-bas
 
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
+# Run
+
+genie-router and its plugins must be configured with the configuration file. It must be provided at startup:
+
+    genie-router -c config.json
+
+See [config.json.example](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
+
+
+## Configuration
+
+See [read-config](https://www.npmjs.com/package/read-config) documentation for more details.
+
 #Docker
 
 Create image by running:

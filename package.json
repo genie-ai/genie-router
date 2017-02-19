@@ -31,7 +31,9 @@
   },
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
-    "bluebird": "3.4.7"
+    "bluebird": "3.4.7",
+    "read-config": "2.0.0",
+    "yargs": "6.6.0"
   },
   "devDependencies": {
     "nodemon": "1.11.0",
