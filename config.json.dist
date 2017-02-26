@@ -1,3 +1,8 @@
 {
-
+    "clients": {
+      "cli": {},
+      "telegram": {
+        "token": "<replace with own token>"
+      }
+    }
 }

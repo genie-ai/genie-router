@@ -30,4 +30,8 @@ const app = new Router(config)
 app.start()
  .then(function() {
    console.log('Ready...')
+ }).catch(function (error) {
+   console.error('Unable to start genie-router!')
+   console.error('Cause: ', error)
+   process.exit(1)
  })
