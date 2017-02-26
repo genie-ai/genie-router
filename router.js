@@ -45,7 +45,7 @@ class Router {
     return Promise.all(promises)
   }
 
-  _getClientStartObjects(clientPluginName) {
+  _getClientStartObjects (clientPluginName) {
     const that = this
     return {
       heard: function (message) {

@@ -15,7 +15,6 @@ See [config.json.example](https://github.com/matueranet/genie-router/blob/develo
 
 
 ## Configuration
-
 See [read-config](https://www.npmjs.com/package/read-config) documentation for more details.
 
 ### Clients
@@ -30,11 +29,19 @@ in your client configuration, for example
 {
   "clients": {
     "telegram": {
-      "token": "<token goes here>"
+      "token": "<token goes here>",
+      "password": "genie"
     }
   }
 }
 ```
+
+The password configuration attribute is optional, and can be used to require a password
+before someone can send commands via Telegram. As there is no persistent storage yet,
+the password will have to be entered every time genie-router starts. As soon as persistent
+storage is implemented the allowed chatIds will be persisted and remembered.
+
+To not require a password, simply remove the attribute or set it to null.
 
 #Docker
 
