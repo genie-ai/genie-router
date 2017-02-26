@@ -1,15 +1,26 @@
 genie-router
 =============
 
+[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router)
+
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
 
 [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
-# Run
+# Installation and running
+
+This project is not yet published as a module in NPM, so for now clone it manually and install its modules:
+
+```
+git clone https://github.com/matueranet/genie-router.git
+npm install
+```
+
+This will make genie-router available in the directory you cloned the repository in.
 
 genie-router and its plugins must be configured with the configuration file. It must be provided at startup:
 
-    genie-router -c config.json
+    ./bin/genie-router -c config.json
 
 See [config.json.example](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
 
