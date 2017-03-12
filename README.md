@@ -13,6 +13,7 @@ This project is not yet published as a module in NPM, so for now clone it manual
 
 ```
 git clone https://github.com/matueranet/genie-router.git
+cd genie-router
 npm install
 ```
 
@@ -34,7 +35,7 @@ See [read-config](https://www.npmjs.com/package/read-config) documentation for m
 
 The [Telegram bot API](https://core.telegram.org/bots/api) can be used as a client for input. Simply follow
 the instructions on the Telegram bot API explanation page to acquire a token for your bot. Place that token
-in your client configuration, for example
+in your client configuration, for example:
 
 ```json
 {
@@ -53,6 +54,25 @@ the password will have to be entered every time genie-router starts. As soon as 
 storage is implemented the allowed chatIds will be persisted and remembered.
 
 To not require a password, simply remove the attribute or set it to null.
+### Brains
+
+#### wit.ai
+
+This brain uses the [wit.ai](https://wit.ai) service to generate a response to input
+from a client.
+
+Create an app at wit.ai, navigate to its settings and copy the API key from the _API Details_
+section.
+
+```json
+{
+  "brains": {
+    "wit": {
+      "accessToken": "<token goes here>"
+    }
+  }
+}
+```
 
 #Docker
 
