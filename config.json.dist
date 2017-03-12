@@ -1,8 +1,15 @@
 {
-    "clients": {
-      "cli": {},
-      "telegram": {
-        "token": "<replace with own token>"
-      }
+  "brain": "wit",
+  "clients": {
+    "cli": {},
+    "telegram": {
+      "token": "<replace with own token>",
+      "password": "genie"
     }
+  },
+  "brains": {
+    "wit": {
+      "accessToken": "accesstoken-from-wit.ai"
+    }
+  }
 }

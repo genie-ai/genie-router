@@ -1,11 +1,15 @@
 'use strict'
 
-const echoPlugin = require('./lib/plugins/brains/echo')
 const getFromObject = require('./lib/utils/getFromObject')
 
-var clientPlugins = {
+let clientPlugins = {
   cli: require('./lib/plugins/clients/cli'),
   telegram: require('./lib/plugins/clients/telegram')
+}
+
+let brainPlugins = {
+  echo: require('./lib/plugins/brains/echo'),
+  wit: require('./lib/plugins/brains/wit')
 }
 
 class Router {
@@ -59,16 +63,17 @@ class Router {
 
   _startBrains () {
     var that = this
-    return echoPlugin.start(
-      getFromObject(that.config, 'plugins.brains.echo')
+    let plugin = brainPlugins[this.config.defaultBrain]
+    return plugin.start(
+      getFromObject(this.config, 'brains.' + this.config.defaultBrain, {})
     ).then(function (brain) {
-      that.brains.echo = brain
+      that.brains[that.config.defaultBrain] = brain
     })
   }
 
   _processHeardInput (input) {
     var that = this
-    this.brains.echo.process(input.message)
+    this.brains[this.config.defaultBrain].process(input.message)
       .then(function (output) {
         var outputClone = JSON.parse(JSON.stringify(output))
         outputClone.metadata = input.message.metadata
