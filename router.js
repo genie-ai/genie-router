@@ -9,7 +9,8 @@ let clientPlugins = {
 
 let brainPlugins = {
   echo: require('./lib/plugins/brains/echo'),
-  wit: require('./lib/plugins/brains/wit')
+  wit: require('./lib/plugins/brains/wit'),
+  gladys: require('./lib/plugins/brains/gladys')
 }
 
 class Router {

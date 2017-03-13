@@ -1,5 +1,5 @@
 {
-  "brain": "wit",
+  "defaultBrain": "wit",
   "clients": {
     "cli": {},
     "telegram": {
@@ -10,6 +10,10 @@
   "brains": {
     "wit": {
       "accessToken": "accesstoken-from-wit.ai"
+    },
+    "gladys": {
+      "endpoint": "http://url-to-gladys/include-a-slash-at-the-end/",
+      "accessToken": "b8d13cfa7dcc5b5c6e989a47d1085fc9757fc99a"
     }
   }
 }
