@@ -1,6 +1,7 @@
 'use strict'
 
 const getFromObject = require('./lib/utils/getFromObject')
+const SuperPlug = require('superplug')
 
 let clientPlugins = {
   cli: require('./lib/plugins/clients/cli'),
@@ -8,7 +9,6 @@ let clientPlugins = {
 }
 
 let brainPlugins = {
-  echo: require('./lib/plugins/brains/echo'),
   wit: require('./lib/plugins/brains/wit')
 }
 
@@ -18,19 +18,39 @@ class Router {
     this.config = config
     this.clients = {}
     this.brains = {}
+    this.pluginLoader = new SuperPlug({
+        location: __dirname,
+        packageProperty: 'genieRouterPlugin'
+      })
   }
 
   start () {
-    var that = this
-    return this._startClients()
-      .then(function () {
-        return that._startBrains()
+    return this._loadPlugins()
+      .then(this._startClients.bind(this))
+      .then(this._startBrains.bind(this))
+  }
+
+  _loadPlugins () {
+    return this.pluginLoader.getPlugins()
+      .then(function (foundPlugins) {
+        for (var iter in foundPlugins) {
+          let foundPlugin = foundPlugins[iter]
+          foundPlugin.getPlugin()
+            .then(function(pluginModule) {
+              if (pluginModule.brain) {
+                brainPlugins[foundPlugin.getName()] = pluginModule.brain
+              }
+              if (pluginModule.client) {
+                clientPlugins[foundPlugin.getName()] = pluginModule.client
+              }
+            })
+        }
       })
   }
 
   _startClients () {
     const that = this
-    const clients = ['cli', 'telegram']
+    const clients = Object.keys(clientPlugins)
     var configuredClients = clients.filter(function (clientName) {
       return getFromObject(that.config, 'clients.' + clientName) !== undefined
     })
