@@ -39,7 +39,7 @@ in your client configuration, for example:
 
 ```json
 {
-  "clients": {
+  "plugins": {
     "telegram": {
       "token": "<token goes here>",
       "password": "genie"
@@ -66,7 +66,7 @@ section.
 
 ```json
 {
-  "brains": {
+  "plugins": {
     "wit": {
       "accessToken": "<token goes here>"
     }

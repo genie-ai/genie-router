@@ -1,13 +1,11 @@
 {
-  "brain": "wit",
-  "clients": {
+  "defaultBrain": "wit",
+  "plugins": {
     "cli": {},
     "telegram": {
       "token": "<replace with own token>",
       "password": "genie"
-    }
-  },
-  "brains": {
+    },
     "wit": {
       "accessToken": "accesstoken-from-wit.ai"
     }

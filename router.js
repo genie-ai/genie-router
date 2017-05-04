@@ -52,13 +52,13 @@ class Router {
     const that = this
     const clients = Object.keys(clientPlugins)
     var configuredClients = clients.filter(function (clientName) {
-      return getFromObject(that.config, 'clients.' + clientName) !== undefined
+      return getFromObject(that.config, 'plugins.' + clientName) !== undefined
     })
     var promises = []
     configuredClients.forEach(function (clientName) {
       promises.push(
         clientPlugins[clientName].start(
-          getFromObject(that.config, 'clients.' + clientName),
+          getFromObject(that.config, 'plugins.' + clientName),
           that._getClientStartObjects(clientName)
         ).then(function (client) {
           that.clients[clientName] = client
@@ -85,7 +85,7 @@ class Router {
     var that = this
     let plugin = brainPlugins[this.config.defaultBrain]
     return plugin.start(
-      getFromObject(this.config, 'brains.' + this.config.defaultBrain, {})
+      getFromObject(this.config, 'plugins.' + this.config.defaultBrain, {})
     ).then(function (brain) {
       that.brains[that.config.defaultBrain] = brain
     })
