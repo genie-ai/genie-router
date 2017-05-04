@@ -33,11 +33,10 @@
   "dependencies": {
     "bluebird": "3.4.7",
     "genie-router-plugin-echo": "github:matueranet/genie-router-plugin-echo",
+    "genie-router-wit.ai": "github:matueranet/genie-router-plugin-wit.ai",
     "node-telegram-bot-api": "^0.27.0",
-    "node-wit": "^4.2.0",
     "read-config": "2.0.0",
     "superplug": "^0.2.0",
-    "uuid": "^3.0.1",
     "yargs": "6.6.0"
   },
   "devDependencies": {

@@ -54,6 +54,7 @@ the password will have to be entered every time genie-router starts. As soon as 
 storage is implemented the allowed chatIds will be persisted and remembered.
 
 To not require a password, simply remove the attribute or set it to null.
+
 ### Brains
 
 #### wit.ai

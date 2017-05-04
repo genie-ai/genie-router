@@ -8,9 +8,7 @@ let clientPlugins = {
   telegram: require('./lib/plugins/clients/telegram')
 }
 
-let brainPlugins = {
-  wit: require('./lib/plugins/brains/wit')
-}
+let brainPlugins = {}
 
 class Router {
 
