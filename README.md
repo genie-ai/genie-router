@@ -40,7 +40,7 @@ in your client configuration, for example:
 ```json
 {
   "plugins": {
-    "telegram": {
+    "telegram-bot": {
       "token": "<token goes here>",
       "password": "genie"
     }

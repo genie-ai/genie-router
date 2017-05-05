@@ -2,7 +2,7 @@
   "defaultBrain": "wit",
   "plugins": {
     "cli": {},
-    "telegram": {
+    "telegram-bot": {
       "token": "<replace with own token>",
       "password": "genie"
     },

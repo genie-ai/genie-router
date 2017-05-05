@@ -2,10 +2,10 @@
 
 const getFromObject = require('./lib/utils/getFromObject')
 const SuperPlug = require('superplug')
+const Promise = require('bluebird')
 
 let clientPlugins = {
-  cli: require('./lib/plugins/clients/cli'),
-  telegram: require('./lib/plugins/clients/telegram')
+  cli: require('./lib/plugins/clients/cli')
 }
 
 let brainPlugins = {}
@@ -31,9 +31,10 @@ class Router {
   _loadPlugins () {
     return this.pluginLoader.getPlugins()
       .then(function (foundPlugins) {
+        let promises = new Array()
         for (var iter in foundPlugins) {
           let foundPlugin = foundPlugins[iter]
-          foundPlugin.getPlugin()
+          promises.push(foundPlugin.getPlugin()
             .then(function(pluginModule) {
               if (pluginModule.brain) {
                 brainPlugins[foundPlugin.getName()] = pluginModule.brain
@@ -42,7 +43,9 @@ class Router {
                 clientPlugins[foundPlugin.getName()] = pluginModule.client
               }
             })
+          )
         }
+        return Promise.all(promises)
       })
   }
 
