@@ -1,16 +1,11 @@
 'use strict'
 
 const getFromObject = require('./lib/utils/getFromObject')
+const SuperPlug = require('superplug')
+const Promise = require('bluebird')
 
-let clientPlugins = {
-  cli: require('./lib/plugins/clients/cli'),
-  telegram: require('./lib/plugins/clients/telegram')
-}
-
-let brainPlugins = {
-  echo: require('./lib/plugins/brains/echo'),
-  wit: require('./lib/plugins/brains/wit')
-}
+let clientPlugins = {}
+let brainPlugins = {}
 
 class Router {
 
@@ -18,27 +13,51 @@ class Router {
     this.config = config
     this.clients = {}
     this.brains = {}
+    this.pluginLoader = new SuperPlug({
+        location: __dirname,
+        packageProperty: 'genieRouterPlugin'
+      })
   }
 
   start () {
-    var that = this
-    return this._startClients()
-      .then(function () {
-        return that._startBrains()
+    return this._loadPlugins()
+      .then(this._startClients.bind(this))
+      .then(this._startBrains.bind(this))
+  }
+
+  _loadPlugins () {
+    return this.pluginLoader.getPlugins()
+      .then(function (foundPlugins) {
+        let promises = new Array()
+        for (var iter in foundPlugins) {
+          let foundPlugin = foundPlugins[iter]
+          promises.push(foundPlugin.getPlugin()
+            .then(function(pluginModule) {
+              if (pluginModule.brain) {
+                brainPlugins[foundPlugin.getName()] = pluginModule.brain
+              }
+              if (pluginModule.client) {
+                clientPlugins[foundPlugin.getName()] = pluginModule.client
+              }
+            })
+          )
+        }
+        return Promise.all(promises)
       })
   }
 
   _startClients () {
     const that = this
-    const clients = ['cli', 'telegram']
+    const clients = Object.keys(clientPlugins)
+    
     var configuredClients = clients.filter(function (clientName) {
-      return getFromObject(that.config, 'clients.' + clientName) !== undefined
+      return getFromObject(that.config, 'plugins.' + clientName) !== undefined
     })
     var promises = []
     configuredClients.forEach(function (clientName) {
       promises.push(
         clientPlugins[clientName].start(
-          getFromObject(that.config, 'clients.' + clientName),
+          getFromObject(that.config, 'plugins.' + clientName),
           that._getClientStartObjects(clientName)
         ).then(function (client) {
           that.clients[clientName] = client
@@ -65,7 +84,7 @@ class Router {
     var that = this
     let plugin = brainPlugins[this.config.defaultBrain]
     return plugin.start(
-      getFromObject(this.config, 'brains.' + this.config.defaultBrain, {})
+      getFromObject(this.config, 'plugins.' + this.config.defaultBrain, {})
     ).then(function (brain) {
       that.brains[that.config.defaultBrain] = brain
     })

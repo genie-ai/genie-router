@@ -39,8 +39,8 @@ in your client configuration, for example:
 
 ```json
 {
-  "clients": {
-    "telegram": {
+  "plugins": {
+    "telegram-bot": {
       "token": "<token goes here>",
       "password": "genie"
     }
@@ -54,6 +54,7 @@ the password will have to be entered every time genie-router starts. As soon as 
 storage is implemented the allowed chatIds will be persisted and remembered.
 
 To not require a password, simply remove the attribute or set it to null.
+
 ### Brains
 
 #### wit.ai
@@ -66,7 +67,7 @@ section.
 
 ```json
 {
-  "brains": {
+  "plugins": {
     "wit": {
       "accessToken": "<token goes here>"
     }

@@ -32,10 +32,12 @@
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
     "bluebird": "3.4.7",
-    "node-telegram-bot-api": "^0.27.0",
-    "node-wit": "^4.2.0",
+    "genie-router-cli-local": "github:matueranet/genie-router-plugin-cli-local",
+    "genie-router-plugin-echo": "github:matueranet/genie-router-plugin-echo",
+    "genie-router-telegram-bot": "github:matueranet/genie-router-plugin-telegram-bot",
+    "genie-router-wit.ai": "github:matueranet/genie-router-plugin-wit.ai",
     "read-config": "2.0.0",
-    "uuid": "^3.0.1",
+    "superplug": "^0.2.0",
     "yargs": "6.6.0"
   },
   "devDependencies": {
