@@ -1,7 +1,7 @@
 {
   "defaultBrain": "wit",
   "plugins": {
-    "cli": {},
+    "cli-local": {},
     "telegram-bot": {
       "token": "<replace with own token>",
       "password": "genie"

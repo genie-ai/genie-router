@@ -4,10 +4,7 @@ const getFromObject = require('./lib/utils/getFromObject')
 const SuperPlug = require('superplug')
 const Promise = require('bluebird')
 
-let clientPlugins = {
-  cli: require('./lib/plugins/clients/cli')
-}
-
+let clientPlugins = {}
 let brainPlugins = {}
 
 class Router {
@@ -52,6 +49,7 @@ class Router {
   _startClients () {
     const that = this
     const clients = Object.keys(clientPlugins)
+    
     var configuredClients = clients.filter(function (clientName) {
       return getFromObject(that.config, 'plugins.' + clientName) !== undefined
     })
