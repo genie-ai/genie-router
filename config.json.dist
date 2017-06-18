@@ -1,5 +1,14 @@
 {
   "defaultBrain": "wit",
+  "httpApi": {
+    "enabled": true,
+    "endpoint": "/api/message",
+    "timeout": 5000
+  },
+  "http": {
+    "enabled"
+    "port": 80
+  },
   "plugins": {
     "cli-local": {},
     "telegram-bot": {

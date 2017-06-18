@@ -5,9 +5,10 @@
   "main": "router.js",
   "scripts": {
     "test": "standard",
-    "start": "./bin/genie-router",
+    "start": "./bin/genie-router -c ./config.json",
     "nodemon": "nodemon ./bin/genie-router -c ./config.json",
-    "standard-fix": "standard --fix"
+    "standard-fix": "standard --fix",
+    "api-invoke": "curl -i -H \"Content-Type: application/json\" -X POST -d \"{\"input\": \"hello\"}\" http://localhost:80/api/message"
   },
   "repository": {
     "type": "git",
@@ -32,12 +33,15 @@
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
     "bluebird": "3.4.7",
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
     "genie-router-cli-local": "github:matueranet/genie-router-plugin-cli-local",
     "genie-router-plugin-echo": "github:matueranet/genie-router-plugin-echo",
     "genie-router-telegram-bot": "github:matueranet/genie-router-plugin-telegram-bot",
     "genie-router-wit.ai": "github:matueranet/genie-router-plugin-wit.ai",
     "read-config": "2.0.0",
     "superplug": "^0.2.0",
+    "uuid": "^3.1.0",
     "yargs": "6.6.0"
   },
   "devDependencies": {
