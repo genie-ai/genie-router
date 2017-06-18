@@ -3,7 +3,8 @@
   "httpApi": {
     "enabled": true,
     "endpoint": "/api/message",
-    "timeout": 5000
+    "timeout": 5000,
+    "accessToken": "protection-enabled"
   },
   "http": {
     "enabled"
