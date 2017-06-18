@@ -70,7 +70,6 @@ class Router {
         })
       )
     })
-
     return Promise.all(promises)
   }
 
@@ -135,7 +134,6 @@ class Router {
       return Promise.resolve()
     }
 
-    console.log('Starting HTTP Api')
     let httpApi = new HttpApi(getFromObject(this.config, 'httpApi'))
     return httpApi.start({
       heard: (message) => {
