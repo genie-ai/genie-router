@@ -25,8 +25,8 @@ class Router {
     return this._loadPlugins()
       .then(this._startHttp.bind(this))
       .then(this._startHttpApi.bind(this))
-      .then(this._startClients.bind(this))
       .then(this._startBrains.bind(this))
+      .then(this._startClients.bind(this))
       .catch((err) => {
         console.error('Error initializing', err)
       })
