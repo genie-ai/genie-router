@@ -120,7 +120,7 @@ section.
 }
 ```
 
-# HTTP / API
+# HTTP API
 
 A HTTP API is implemented so that external services can invoke the router, without having
 to create a client plugin.
@@ -150,7 +150,7 @@ The responses will contain a unique identifier for each request, in the `id` att
 ```json
 {
   "id": "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
-  "message": "How may I help you, master?"
+  "message": "How may I help you, master?",
   "metadata": {
     "internal-request-id": 5
   }
@@ -178,4 +178,4 @@ Create container by running:
 
 To keep the tests continuously running, create the container below:
 
-  docker run --name genie-router-test -v `pwd`:/home/app -v /home/app/node_modules genie-router ./node_modules/.bin/nodemon ./node_modules/.bin/standard
+    docker run --name genie-router-test -v `pwd`:/home/app -v /home/app/node_modules genie-router ./node_modules/.bin/nodemon ./node_modules/.bin/standard
