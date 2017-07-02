@@ -23,15 +23,60 @@ genie-router and its plugins must be configured with the configuration file. It 
 
     ./bin/genie-router -c config.json
 
-See [config.json.example](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
+See [config.json.dist](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
 
+## As a module
 
-## Configuration
-See [read-config](https://www.npmjs.com/package/read-config) documentation for more details.
+_genie-router_ can also be used as a module in your existing project.
 
-### Clients
+```
+npm install --save matueranet/genie-router
+```
 
-#### Telegram
+Then you can initialize the router via:
+
+```
+const app = new Router(config)
+```
+
+Here you need to parse and provide the configuration object yourself, the same structure is
+expected as the standalone version.
+
+# Configuration
+
+Copy `config.json.dist` and update the values to your liking.
+See [read-config](https://www.npmjs.com/package/read-config) documentation for more details on how values can be declared.
+
+## HTTP
+
+To enable HTTP support in general (in a future release the plugins can use the http library to
+handle HTTP requests themselves), add a `http` attribute to the config:
+
+```json
+"http": {
+  "enabled": true,
+  "port": 3001
+}
+```
+You need to set `enabled` to `true` and configure the port on which to listen on. The default is 3001.
+When http is enabled, you can configure the HTTP API.
+
+```json
+"httpApi": {
+  "enabled": true,
+  "endpoint": "/api/message",
+  "timeout": 5000,
+  "accessToken": "protection-enabled"
+}
+```
+
+When enabled, you can define the endpoint to which the API should listen (e.g. http://localhost:3001/api/message). The timeout
+how long the request should wait for the invoked brain to respond. And optionally protect the API with a accessToken.
+If the `accessToken` attribute is set, each request should include a `Authorization: Bearer [accessToken]` header.
+
+## Clients
+
+### Telegram
 
 The [Telegram bot API](https://core.telegram.org/bots/api) can be used as a client for input. Simply follow
 the instructions on the Telegram bot API explanation page to acquire a token for your bot. Place that token
@@ -55,9 +100,9 @@ storage is implemented the allowed chatIds will be persisted and remembered.
 
 To not require a password, simply remove the attribute or set it to null.
 
-### Brains
+## Brains
 
-#### wit.ai
+### wit.ai
 
 This brain uses the [wit.ai](https://wit.ai) service to generate a response to input
 from a client.
@@ -72,6 +117,52 @@ section.
       "accessToken": "<token goes here>"
     }
   }
+}
+```
+
+# HTTP / API
+
+A HTTP API is implemented so that external services can invoke the router, without having
+to create a client plugin.
+
+If the `accessToken` attribute is set, each request should include a `Authorization: Bearer [accessToken]` header.
+
+The requests towards the API endpoint should always be **POST**.
+
+### Request / response
+
+The request should have be a JSON object, with at least an `input` attribute. You can optionally
+include a `metadata` attribute which will be returned in the request.
+
+```json
+{
+  "input": "Hello genie!",
+  "metadata": {
+    "internal-request-id": 5
+  }
+}
+```
+
+The responses will contain a unique identifier for each request, in the `id` attribute.
+
+## Response
+
+```json
+{
+  "id": "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
+  "message": "How may I help you, master?"
+  "metadata": {
+    "internal-request-id": 5
+  }
+}
+```
+
+## Errors
+
+```json
+{
+  "id": "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
+  "error": "Timeout contacting brain."
 }
 ```
 

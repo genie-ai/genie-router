@@ -3,6 +3,8 @@
 const getFromObject = require('./lib/utils/getFromObject')
 const SuperPlug = require('superplug')
 const Promise = require('bluebird')
+const HttpApi = require('./lib/httpApi')
+const http = require('./lib/http')
 
 let clientPlugins = {}
 let brainPlugins = {}
@@ -14,25 +16,30 @@ class Router {
     this.clients = {}
     this.brains = {}
     this.pluginLoader = new SuperPlug({
-        location: __dirname,
-        packageProperty: 'genieRouterPlugin'
-      })
+      location: __dirname,
+      packageProperty: 'genieRouterPlugin'
+    })
   }
 
   start () {
     return this._loadPlugins()
-      .then(this._startClients.bind(this))
+      .then(this._startHttp.bind(this))
+      .then(this._startHttpApi.bind(this))
       .then(this._startBrains.bind(this))
+      .then(this._startClients.bind(this))
+      .catch((err) => {
+        console.error('Error initializing', err)
+      })
   }
 
   _loadPlugins () {
     return this.pluginLoader.getPlugins()
       .then(function (foundPlugins) {
-        let promises = new Array()
+        let promises = []
         for (var iter in foundPlugins) {
           let foundPlugin = foundPlugins[iter]
           promises.push(foundPlugin.getPlugin()
-            .then(function(pluginModule) {
+            .then(function (pluginModule) {
               if (pluginModule.brain) {
                 brainPlugins[foundPlugin.getName()] = pluginModule.brain
               }
@@ -47,24 +54,22 @@ class Router {
   }
 
   _startClients () {
-    const that = this
     const clients = Object.keys(clientPlugins)
-    
-    var configuredClients = clients.filter(function (clientName) {
-      return getFromObject(that.config, 'plugins.' + clientName) !== undefined
+
+    var configuredClients = clients.filter((clientName) => {
+      return getFromObject(this.config, 'plugins.' + clientName) !== undefined
     })
     var promises = []
-    configuredClients.forEach(function (clientName) {
+    configuredClients.forEach((clientName) => {
       promises.push(
         clientPlugins[clientName].start(
-          getFromObject(that.config, 'plugins.' + clientName),
-          that._getClientStartObjects(clientName)
-        ).then(function (client) {
-          that.clients[clientName] = client
+          getFromObject(this.config, 'plugins.' + clientName),
+          this._getClientStartObjects(clientName)
+        ).then((client) => {
+          this.clients[clientName] = client
         })
       )
     })
-
     return Promise.all(promises)
   }
 
@@ -72,32 +77,78 @@ class Router {
     const that = this
     return {
       heard: function (message) {
-        that._processHeardInput({
-          plugin: clientPluginName,
-          message: message
-        })
+        that._processHeardInput(
+          {
+            plugin: clientPluginName,
+            message: message
+          },
+          that.clients[clientPluginName].speak
+        )
       }
     }
   }
 
   _startBrains () {
-    var that = this
     let plugin = brainPlugins[this.config.defaultBrain]
     return plugin.start(
       getFromObject(this.config, 'plugins.' + this.config.defaultBrain, {})
-    ).then(function (brain) {
-      that.brains[that.config.defaultBrain] = brain
+    ).then((brain) => {
+      this.brains[this.config.defaultBrain] = brain
     })
   }
 
-  _processHeardInput (input) {
-    var that = this
-    this.brains[this.config.defaultBrain].process(input.message)
+  /**
+   * Process a received input message.
+   * @param Object   input         An object with an attribute message.
+   * @param function speakCallback The function to invoke with the reply from the brain.
+   */
+  _processHeardInput (input, speakCallback) {
+    return this.brains[this.config.defaultBrain].process(input.message)
       .then(function (output) {
         var outputClone = JSON.parse(JSON.stringify(output))
         outputClone.metadata = input.message.metadata
-        return that.clients[input.plugin].speak(outputClone)
+        return speakCallback(outputClone)
       })
+  }
+
+  /**
+   * Start the HTTP Api, if enabled.
+  */
+  _startHttp () {
+    if (getFromObject(this.config, 'http.enabled', false)) {
+      return http(getFromObject(this.config, 'http'))
+    }
+    return Promise.resolve()
+  }
+
+  /**
+   * Start the HTTP Api endpoint.
+  */
+  _startHttpApi () {
+    if (
+      !getFromObject(this.config, 'http.enabled', false) ||
+      !getFromObject(this.config, 'httpApi.enabled', false)
+    ) {
+      // HTTP or API is disabled
+      console.log('httpAPI is disabled.')
+      return Promise.resolve()
+    }
+
+    let httpApi = new HttpApi(
+      getFromObject(this.config, 'httpApi'),
+      {
+        heard: (message) => {
+          this._processHeardInput(
+            {
+              plugin: 'httpApi',
+              message: message
+            },
+            httpApi.reply.bind(httpApi)
+          )
+        }
+      }
+    )
+    return httpApi.start()
   }
 }
 
