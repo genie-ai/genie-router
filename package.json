@@ -4,7 +4,7 @@
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
   "scripts": {
-    "test": "standard && mocha test/**/*.test.js",
+    "test": "standard && istanbul cover --include-all-sources true _mocha test/**/*.test.js",
     "start": "./bin/genie-router -c ./config.json",
     "nodemon": "DEBUG=genie-router:* nodemon ./bin/genie-router -c ./config.json",
     "nodemon-test": "nodemon ./node_modules/.bin/mocha test/**/*.test.js",
@@ -47,6 +47,7 @@
     "yargs": "6.6.0"
   },
   "devDependencies": {
+    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "nodemon": "1.11.0",
     "proxyquire": "^1.8.0",

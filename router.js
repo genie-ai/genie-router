@@ -134,18 +134,21 @@ class Router {
       return Promise.resolve()
     }
 
-    let httpApi = new HttpApi(getFromObject(this.config, 'httpApi'))
-    return httpApi.start({
-      heard: (message) => {
-        this._processHeardInput(
-          {
-            plugin: 'httpApi',
-            message: message
-          },
-          httpApi.reply.bind(httpApi)
-        )
+    let httpApi = new HttpApi(
+      getFromObject(this.config, 'httpApi'),
+      {
+        heard: (message) => {
+          this._processHeardInput(
+            {
+              plugin: 'httpApi',
+              message: message
+            },
+            httpApi.reply.bind(httpApi)
+          )
+        }
       }
-    })
+    )
+    return httpApi.start()
   }
 }
 
