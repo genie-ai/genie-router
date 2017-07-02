@@ -7,8 +7,8 @@
     "accessToken": "protection-enabled"
   },
   "http": {
-    "enabled"
-    "port": 80
+    "enabled": true
+    "port": 3001
   },
   "plugins": {
     "cli-local": {},
