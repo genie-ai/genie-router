@@ -1,11 +1,9 @@
 genie-router
 =============
 
-[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router)
+[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Coverage Status](https://coveralls.io/repos/github/matueranet/genie-router/badge.svg?branch=develop)](https://coveralls.io/github/matueranet/genie-router?branch=develop)
 
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
-
-[![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 # Installation and running
 
