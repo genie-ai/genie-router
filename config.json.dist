@@ -18,6 +18,9 @@
     },
     "wit": {
       "accessToken": "accesstoken-from-wit.ai"
+    },
+    "api-ai": {
+      "accessToken": "accesstoken-from-api.ai"
     }
   }
 }

@@ -118,6 +118,24 @@ section.
 }
 ```
 
+### api.ai
+
+This brain uses the [api.ai](https://api.ai) service to generate a response to input
+from a client.
+
+Create an agent at api.ai, open its settings and copy the Client access token from the
+_General Settings_ tab.
+
+```json
+{
+  "plugins": {
+    "api-ai": {
+      "accessToken": "<token goes here>"
+    }
+  }
+}
+```
+
 # HTTP API
 
 A HTTP API is implemented so that external services can invoke the router, without having
