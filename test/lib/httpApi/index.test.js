@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach, afterEach */
+
 const assert = require('assert')
 const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
@@ -18,7 +20,7 @@ describe('HttpApi', function () {
   })
 
   describe('start()', function () {
-    //define two similar testcases
+    // define two similar testcases
     let dataProvider = [
       {label: 'must register the default route at express', config: {}, getFromObjectFirst: undefined, postArgCount: 2},
       {
@@ -31,17 +33,17 @@ describe('HttpApi', function () {
     ]
     dataProvider.forEach(function (data) {
       it(data.label, function () {
-        //create an AppStub to let the Promise return
+        // create an AppStub to let the Promise return
         let appStub = {
           post: sinon.stub(),
           options: sinon.stub()
         }
 
-        //stub http
+        // stub http
         let httpStub = sinon.stub()
         httpStub.resolves(appStub)
 
-        //getFromObject stub
+        // getFromObject stub
         let getFromObjectStub = sinon.stub()
         getFromObjectStub.onFirstCall().returns('/api/message')
         getFromObjectStub.onSecondCall().returns(data.getFromObjectFirst)
@@ -69,17 +71,17 @@ describe('HttpApi', function () {
       let HttpApi = require('../../../lib/httpApi/index.js')
       let httpApi = new HttpApi({})
 
-      //set up the list of open requests
+      // set up the list of open requests
       httpApi.openRequests = {uuid: {res: resStub, timer: undefined}}
       let message = {output: 'reply', metadata: {uuid: 'uuid', requestMetadata: {}}}
 
       return httpApi.reply(message)
         .then(function () {
-          //test that the reply is send
+          // test that the reply is send
           let expectedMessage = {id: 'uuid', message: {message: 'reply', metadata: {}}}
           assert.equal(JSON.stringify(expectedMessage), resStub.send.getCall(0).args[0])
 
-          //test that the openRequest is cleaned up
+          // test that the openRequest is cleaned up
           assert.equal(undefined, httpApi.openRequests.uuid)
         })
     })
@@ -203,7 +205,6 @@ describe('HttpApi', function () {
           )
           httpApi._sendCorsHeaders.restore()
         })
-
     })
     it('sets a timeout', function () {
       clock = sinon.useFakeTimers()

@@ -10,7 +10,6 @@ let clientPlugins = {}
 let brainPlugins = {}
 
 class Router {
-
   constructor (config) {
     this.config = config
     this.clients = {}
@@ -90,6 +89,7 @@ class Router {
 
   _startBrains () {
     let plugin = brainPlugins[this.config.defaultBrain]
+
     return plugin.start(
       getFromObject(this.config, 'plugins.' + this.config.defaultBrain, {})
     ).then((brain) => {

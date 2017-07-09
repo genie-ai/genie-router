@@ -1,3 +1,5 @@
+/* global describe, it, beforeEach */
+
 const assert = require('assert')
 const proxyquire = require('proxyquire').noCallThru()
 const sinon = require('sinon')
@@ -19,10 +21,10 @@ describe('http()', function () {
   })
 
   it('should return a promise', function () {
-    //set up Express mock
+    // set up Express mock
     expressStub.returns({listen: noop, use: noop})
 
-    //Run test
+    // Run test
     let promise = http({port: 80})
     assert.ok(
       typeof promise.then === 'function' &&
@@ -31,7 +33,7 @@ describe('http()', function () {
   })
 
   it('should initialize express and bodyparser', function () {
-    //set up Express mock
+    // set up Express mock
     const listenSpy = sinon.spy()
     const useSpy = sinon.spy()
     expressStub.returns({listen: listenSpy, use: useSpy})
@@ -46,14 +48,14 @@ describe('http()', function () {
   })
 
   it('should immediately return app when already initialized', function () {
-    //set up Express mock
+    // set up Express mock
     const listenSpy = sinon.spy()
     const useSpy = sinon.spy()
     expressStub.returns({listen: listenSpy, use: useSpy})
 
     return http({port: 80})
       .then(function (app) {
-        //call http again and assert that the expressStub is only invoked once.
+        // call http again and assert that the expressStub is only invoked once.
         http()
           .then(function (app2) {
             assert.deepEqual(app, app2)
