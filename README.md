@@ -136,6 +136,35 @@ _General Settings_ tab.
 }
 ```
 
+## Brain selectors
+
+Brain selectors are plugins that pre-process the input and attempt to determine the
+right brain for the input, instead of falling back to the default brain.
+
+### brain mentions
+
+This plugin [brain-mentions](https://github.com/matueranet/genie-router-plugin-brain-mentions) attempts
+to determine if the name of a brain is mentioned in the first words of an input. If that
+is the case it then selects that brain, and removes all input up to and including that word from
+the input. It also allows you to configure aliases, so you do not always need to use the name
+of the brain plugin to select it for processing.
+
+All configuration is optional.
+
+```json
+{
+  "plugins": {
+    "brain-mentions": {
+      "aliases": {
+        "assistent": "api-ai",
+        "well": "echo"
+      }
+    },
+    "partsOfInputToCheck": 3
+  }
+}
+```
+
 # HTTP API
 
 A HTTP API is implemented so that external services can invoke the router, without having
