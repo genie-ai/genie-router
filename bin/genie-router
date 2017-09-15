@@ -19,7 +19,7 @@ try {
   var config = readConfig(argv.config)
 } catch (e) {
   yargs.showHelp()
-  console.error('Unable to open ' + argv.config)
+  console.error('Unable to open', argv.config, ': ', e)
   process.exit(1)
 }
 

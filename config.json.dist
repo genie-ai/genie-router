@@ -7,7 +7,7 @@
     "accessToken": "protection-enabled"
   },
   "http": {
-    "enabled": true
+    "enabled": true,
     "port": 3001
   },
   "plugins": {
