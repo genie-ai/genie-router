@@ -155,7 +155,7 @@ All configuration is optional.
 }
 ```
 
-#Docker
+# Docker
 
 Create image by running:
 
