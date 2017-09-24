@@ -3,7 +3,6 @@
 const getFromObject = require('./lib/utils/getFromObject')
 const SuperPlug = require('superplug')
 const Promise = require('bluebird')
-const HttpApi = require('./lib/httpApi')
 const http = require('./lib/http')
 const BrainSelector = require('./lib/brainSelector')
 const debug = require('debug')('genie-router::router')
@@ -13,6 +12,7 @@ class Router {
     this.config = config
     this.plugins = {}
     this.clients = {}
+    this.httpEnabled = false
     this.pluginLoader = new SuperPlug({
       location: __dirname,
       packageProperty: 'genieRouterPlugin'
@@ -23,7 +23,6 @@ class Router {
   start () {
     return this._loadPlugins()
       .then(this._startHttp.bind(this))
-      .then(this._startHttpApi.bind(this))
       .then(this._startPlugins.bind(this))
       .catch((err) => {
         console.error('Error initializing', err)
@@ -51,7 +50,6 @@ class Router {
 
   _startPlugins () {
     const plugins = Object.keys(this.plugins)
-
     let promises = []
     let brains = {}
     plugins.forEach((pluginName) => {
@@ -65,10 +63,11 @@ class Router {
           })
         )
       }
+
       if (plugin.client) {
         // thing here is that the startObject needs the speak function, which
         // is only available after the start function has been invoked. Needed
-        // some trickery to work.
+        // some trickery to make it work.
         const startObject = this._getClientStartObjects(pluginName, plugin)
         promises.push(
           this.plugins[pluginName].client.start(
@@ -86,6 +85,18 @@ class Router {
             this.brainSelector.use(pluginName, brainSelector)
           })
         )
+      }
+      if (plugin.http) {
+        if (!this.httpEnabled) {
+          console.log('HTTP is not enabled, Ignoring http component of plugin', pluginName)
+        } else {
+          promises.push(
+            http()
+              .then((app) => {
+                return this.plugins[pluginName].http.start(config, app)
+              })
+          )
+        }
       }
     })
     return Promise.all(promises)
@@ -139,40 +150,11 @@ class Router {
    * Start the HTTP Api, if enabled.
   */
   _startHttp () {
-    if (getFromObject(this.config, 'http.enabled', false)) {
+    this.httpEnabled = getFromObject(this.config, 'http.enabled', false)
+    if (this.httpEnabled) {
       return http(getFromObject(this.config, 'http'))
     }
     return Promise.resolve()
-  }
-
-  /**
-   * Start the HTTP Api endpoint.
-  */
-  _startHttpApi () {
-    if (
-      !getFromObject(this.config, 'http.enabled', false) ||
-      !getFromObject(this.config, 'httpApi.enabled', false)
-    ) {
-      // HTTP or API is disabled
-      debug('httpAPI is disabled.')
-      return Promise.resolve()
-    }
-
-    let httpApi = new HttpApi(
-      getFromObject(this.config, 'httpApi'),
-      {
-        heard: (message) => {
-          this._processHeardInput(
-            {
-              plugin: 'httpApi',
-              message: message
-            },
-            httpApi.reply.bind(httpApi)
-          )
-        }
-      }
-    )
-    return httpApi.start()
   }
 }
 
