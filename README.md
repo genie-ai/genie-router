@@ -57,20 +57,10 @@ handle HTTP requests themselves), add a `http` attribute to the config:
 }
 ```
 You need to set `enabled` to `true` and configure the port on which to listen on. The default is 3001.
-When http is enabled, you can configure the HTTP API.
+When http is enabled, you can install plugins exposing HTTP urls.
 
-```json
-"httpApi": {
-  "enabled": true,
-  "endpoint": "/api/message",
-  "timeout": 5000,
-  "accessToken": "protection-enabled"
-}
-```
-
-When enabled, you can define the endpoint to which the API should listen (e.g. http://localhost:3001/api/message). The timeout
-how long the request should wait for the invoked brain to respond. And optionally protect the API with a accessToken.
-If the `accessToken` attribute is set, each request should include a `Authorization: Bearer [accessToken]` header.
+There is a [HTTP API](https://github.com/matueranet/genie-router-plugin-api-http) plugin available that
+exposes a way for external clients to send a message using genie-router.
 
 ## Clients
 
@@ -162,52 +152,6 @@ All configuration is optional.
     },
     "partsOfInputToCheck": 3
   }
-}
-```
-
-# HTTP API
-
-A HTTP API is implemented so that external services can invoke the router, without having
-to create a client plugin.
-
-If the `accessToken` attribute is set, each request should include a `Authorization: Bearer [accessToken]` header.
-
-The requests towards the API endpoint should always be **POST**.
-
-### Request / response
-
-The request should have be a JSON object, with at least an `input` attribute. You can optionally
-include a `metadata` attribute which will be returned in the request.
-
-```json
-{
-  "input": "Hello genie!",
-  "metadata": {
-    "internal-request-id": 5
-  }
-}
-```
-
-The responses will contain a unique identifier for each request, in the `id` attribute.
-
-## Response
-
-```json
-{
-  "id": "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
-  "message": "How may I help you, master?",
-  "metadata": {
-    "internal-request-id": 5
-  }
-}
-```
-
-## Errors
-
-```json
-{
-  "id": "110ec58a-a0f2-4ac4-8393-c866d813b8d1",
-  "error": "Timeout contacting brain."
 }
 ```
 
