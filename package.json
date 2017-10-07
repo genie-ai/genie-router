@@ -45,6 +45,7 @@
     "genie-router-plugin-echo": "github:matueranet/genie-router-plugin-echo",
     "genie-router-telegram-bot": "github:matueranet/genie-router-plugin-telegram-bot",
     "genie-router-wit.ai": "github:matueranet/genie-router-plugin-wit.ai",
+    "genie-router-plugin-rivescript": "github:matueranet/genie-router-plugin-rivescript",
     "read-config": "2.0.0",
     "superplug": "^0.2.0",
     "uuid": "^3.1.0",
