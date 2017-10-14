@@ -49,7 +49,8 @@
     "read-config": "2.0.0",
     "superplug": "^0.2.0",
     "uuid": "^3.1.0",
-    "yargs": "6.6.0"
+    "yargs": "6.6.0",
+    "npm-utils": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
