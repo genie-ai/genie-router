@@ -12,15 +12,6 @@
   },
   "plugins": {
     "cli-local": {},
-    "telegram-bot": {
-      "token": "<replace with own token>",
-      "password": "genie"
-    },
-    "wit": {
-      "accessToken": "accesstoken-from-wit.ai"
-    },
-    "api-ai": {
-      "accessToken": "accesstoken-from-api.ai"
-    }
+    "echo": {}
   }
 }
