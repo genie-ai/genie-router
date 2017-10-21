@@ -34,30 +34,24 @@
   },
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
-    "bluebird": "3.4.7",
+    "bluebird": "^3.4.7",
     "body-parser": "^1.17.2",
     "debug": "^2.6.8",
     "express": "^4.15.3",
-    "genie-router-cli-local": "github:matueranet/genie-router-plugin-cli-local",
-    "genie-router-plugin-api-http": "github:matueranet/genie-router-plugin-api-http",
-    "genie-router-plugin-api.ai": "github:matueranet/genie-router-plugin-api.ai",
-    "genie-router-plugin-brain-mentions": "github:matueranet/genie-router-plugin-brain-mentions",
-    "genie-router-plugin-echo": "github:matueranet/genie-router-plugin-echo",
-    "genie-router-telegram-bot": "github:matueranet/genie-router-plugin-telegram-bot",
-    "genie-router-wit.ai": "github:matueranet/genie-router-plugin-wit.ai",
-    "read-config": "2.0.0",
+    "read-config": "^2.0.0",
     "superplug": "^0.2.0",
     "uuid": "^3.1.0",
-    "yargs": "6.6.0"
+    "yargs": "^6.6.0",
+    "npm-utils": "^2.0.0"
   },
   "devDependencies": {
     "coveralls": "^2.13.1",
     "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
     "mocha-lcov-reporter": "^1.3.0",
-    "nodemon": "1.11.0",
+    "nodemon": "^1.11.0",
     "proxyquire": "^1.8.0",
     "sinon": "^2.3.4",
-    "standard": "8.6.0"
+    "standard": "^8.6.0"
   }
 }
