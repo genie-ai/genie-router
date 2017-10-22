@@ -6,13 +6,15 @@ const http = require('./lib/http')
 const BrainSelector = require('./lib/brainSelector')
 const debug = require('debug')('genie-router::router')
 const PluginLoader = require('./lib/plugins/loader.js')
+const EventEmitter = require('events')
 
 class Router {
   constructor (config) {
     this.config = config
     this.httpEnabled = false
     this.brainSelector = new BrainSelector(config.defaultBrain)
-    this.pluginLoader = new PluginLoader(config, this._getClientStartObjects.bind(this), this.brainSelector)
+    this.eventEmitter = new EventEmitter()
+    this.pluginLoader = new PluginLoader(config, this._getClientStartObjects.bind(this), this.brainSelector, this.eventEmitter)
   }
 
   start () {
@@ -38,6 +40,7 @@ class Router {
           (message) => {
             // We cannot use this function directly, because the object that.clients[clientPluginName]
             // is not set yet when we create this startObject.
+            that.eventEmitter.emit('output.reply', clientPluginName, message)
             that.pluginLoader.getClients()[clientPluginName].speak(message)
           }
         )
@@ -51,6 +54,7 @@ class Router {
    * @param function speakCallback The function to invoke with the reply from the brain.
    */
   _processHeardInput (input, speakCallback) {
+    this.eventEmitter.emit('input.heard', input.plugin, input.message)
     return this.brainSelector.getBrainForInput(input)
       .then((selectedInfo) => {
         let brain = selectedInfo.brain

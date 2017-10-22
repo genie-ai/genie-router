@@ -92,12 +92,13 @@ See the cli-local or echo plugins for simple examples.
 
 ## Types
 
-There are three types of plugins, clients, brains and brain selectors. One plugin must
+There are four types of plugins, clients, brains, listeners and brain selectors. One plugin must
 be at least one of these three types, but an also be a combination of them.
 
 A client takes input and echoes the resulting output. A brain takes text as input,
 does something with it, and returns an output. Brain selectors parse the input text
-and return the name of a brain to use for processing the input.
+and return the name of a brain to use for processing the input. Listeners can listen to
+events, currently only `input.heard` and `output.reply` are supported.
 
 ## Overview
 
@@ -109,11 +110,12 @@ and return the name of a brain to use for processing the input.
 | Rivescript | Brain | rivescript | Allows genie-router to use rivescript as a brain. | `npm install matueranet/genie-router-plugin-rivescript` | [genie-router-plugin-rivescript](https://github.com/matueranet/genie-router-plugin-rivescript) |
 | Facebook Messenger | Client | facebook-messenger | Enables the use of FB Messenger as a client. | `npm install matueranet/genie-router-plugin-facebook-messenger` | [genie-router-plugin-facebook-messenger](https://github.com/matueranet/genie-router-plugin-facebook-messenger) |
 | Api.ai | Brain | api-ai | Use [api.ai](https://api.ai) as a brain to handle input | `npm install matueranet/genie-router-plugin-api.ai` | [genie-router-plugin-api.ai](https://github.com/matueranet/genie-router-plugin-api.ai) |
+| Dashbot | Listener | dashbot | Log transcripts to [dashbot.io](https://dashbot.io) | `npm install matueranet/genie-router-plugin-dashbot` | [genie-router-plugin-dashbot](https://github.com/matueranet/genie-router-plugin-dashbot) |
 | CLI Local | Client | cli-local | Send input in the terminal where genie-router was started | `npm install matueranet/genie-router-plugin-cli-local` | [genie-router-plugin-cli-local](https://github.com/matueranet/genie-router-plugin-cli-local) |
 | Echo | Brain | echo | Echoes all input back | `npm install matueranet/genie-router-plugin-echo` | [genie-router-plugin-echo](https://github.com/matueranet/genie-router-plugin-echo) |
 | Gladys | Brain | gladys | Use [Gladys](https://gladysproject.com) to process input | `npm install matueranet/genie-router-plugin-gladys` | [genie-router-plugin-gladys](https://github.com/matueranet/genie-router-plugin-gladys) |
 
-Want your plugin added here? Create a [Pull Request](https://github.com/matueranet/genie-router/pulls).
+Want your plugin added here? Update the readme and create a [Pull Request](https://github.com/matueranet/genie-router/pulls).
 
 # Docker
 
