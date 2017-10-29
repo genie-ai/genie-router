@@ -65,6 +65,8 @@ class Router {
       }).then(function (output) {
         var outputClone = JSON.parse(JSON.stringify(output))
         outputClone.metadata = input.message.metadata
+        outputClone.sessionId = input.message.sessionId ? input.message.sessionId : null
+        outputClone.userId = input.message.userId ? input.message.userId : null
         return speakCallback(outputClone)
       }).catch((err) => {
         debug('Unable to process input %s: %s', JSON.stringify(input), err + '')
