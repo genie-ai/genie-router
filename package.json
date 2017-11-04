@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/matueranet/genie-router.git"
   },
+  "bin": {
+    "genie-router": "bin/genie-router"
+  },
   "keywords": [
     "genie",
     "genie-ai",
