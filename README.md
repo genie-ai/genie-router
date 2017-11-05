@@ -6,6 +6,8 @@ genie-router
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
 Functionality is added via plugins, checkout the **Plugins** section for more information.
 
+View online [demo](https://www.matuera.net/genie-router/demo).
+
 # Installation and running
 
 This project is not yet published as a module in NPM, so for now clone it manually and install its modules:
