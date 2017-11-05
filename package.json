@@ -1,16 +1,23 @@
 {
   "name": "genie-router",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
   "scripts": {
-    "test": "standard",
-    "start": "./bin/genie-router",
-    "nodemon": "./node_modules/.bin/nodemon ./bin/genie-router"
+    "test": "standard && istanbul cover --include-all-sources true _mocha test/**/*.test.js --reporter=\"lcovonly html\" -- -R spec",
+    "coverage-report": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "start": "DEBUG=genie-router* ./bin/genie-router -c ./config.json",
+    "nodemon": "DEBUG=genie-router:* nodemon ./bin/genie-router -c ./config.json",
+    "nodemon-test": "nodemon ./node_modules/.bin/mocha test/**/*.test.js",
+    "standard-fix": "standard --fix",
+    "api-invoke": "curl -i -H \"Content-Type: application/json\" -X POST -d \"{\"input\": \"hello\"}\" http://localhost:80/api/message"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/matueranet/genie-router.git"
+  },
+  "bin": {
+    "genie-router": "bin/genie-router"
   },
   "keywords": [
     "genie",
@@ -30,10 +37,24 @@
   },
   "homepage": "https://github.com/matueranet/genie-router#readme",
   "dependencies": {
-    "bluebird": "3.4.7"
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.17.2",
+    "debug": "^2.6.8",
+    "express": "^4.15.3",
+    "read-config": "^2.0.0",
+    "superplug": "^0.2.0",
+    "uuid": "^3.1.0",
+    "yargs": "^6.6.0",
+    "npm-utils": "^2.0.0"
   },
   "devDependencies": {
-    "nodemon": "1.11.0",
-    "standard": "8.6.0"
+    "coveralls": "^2.13.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.4.2",
+    "mocha-lcov-reporter": "^1.3.0",
+    "nodemon": "^1.11.0",
+    "proxyquire": "^1.8.0",
+    "sinon": "^2.3.4",
+    "standard": "^8.6.0"
   }
 }

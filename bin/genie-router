@@ -1,5 +1,35 @@
 #!/usr/bin/env node
 
-const router = require('../router')
+const Router = require('../router')
+const readConfig = require('read-config')
+const yargs = require('yargs')
 
-router.start()
+const argv = yargs
+    .usage('Usage: $0 -c config.json')
+    .option('c', {
+        alias: 'config',
+        describe: 'The location of the configuration file.'
+      })
+    .help('help', 'Show this help and exit')
+    .demandOption('config')
+    .version(require('../package').version)
+    .argv
+
+try {
+  var config = readConfig(argv.config)
+} catch (e) {
+  yargs.showHelp()
+  console.error('Unable to open', argv.config, ': ', e)
+  process.exit(1)
+}
+
+const app = new Router(config)
+
+app.start()
+ .then(function () {
+   console.log('Ready...')
+ }).catch(function (error) {
+   console.error('Unable to start genie-router!')
+   console.error('Cause: ', error)
+   process.exit(1)
+ })
