@@ -10,7 +10,21 @@ View online [demo](https://www.matuera.net/genie-router/demo).
 
 # Installation and running
 
-This project is not yet published as a module in NPM, so for now clone it manually and install its modules:
+## Globally
+
+```
+npm install -g genie-router
+```
+
+This will make genie-router globally available on the system.
+
+genie-router and its plugins must be configured with the configuration file. It must be provided at startup:
+
+    genie-router -c config.json
+
+See [config.json.dist](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
+
+## Via git
 
 ```
 git clone https://github.com/matueranet/genie-router.git
@@ -19,19 +33,14 @@ npm install
 ```
 
 This will make genie-router available in the directory you cloned the repository in.
-
-genie-router and its plugins must be configured with the configuration file. It must be provided at startup:
-
-    ./bin/genie-router -c config.json
-
-See [config.json.dist](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
+Run genie-router using `./bin/genie-router -c config.json`.
 
 ## As a module
 
 _genie-router_ can also be used as a module in your existing project.
 
 ```
-npm install --save matueranet/genie-router
+npm install --save genie-router
 ```
 
 Then you can initialize the router via:
@@ -40,8 +49,7 @@ Then you can initialize the router via:
 const app = new Router(config)
 ```
 
-Here you need to parse and provide the configuration object yourself, the same structure is
-expected as the standalone version.
+Here you need to parse and provide the configuration object yourself.
 
 # Configuration
 
