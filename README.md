@@ -1,7 +1,7 @@
 genie-router
 =============
 
-[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/) [![Coverage Status](https://coveralls.io/repos/github/matueranet/genie-router/badge.svg?branch=develop)](https://coveralls.io/github/matueranet/genie-router?branch=develop)
+[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
 
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
 Functionality is added via plugins, checkout the **Plugins** section for more information.
@@ -58,7 +58,7 @@ See [read-config](https://www.npmjs.com/package/read-config) documentation for m
 
 ## Plugin location
 
-When genie-router starts it will attempt to load its plugin. The default location is `$HOME/.genie-router`,
+When genie-router starts it will attempt to load its plugins. The default location is `$HOME/.genie-router`,
 if that location does not exist, it will be created, the echo and cli-local plugin will
 be installed by default.
 
@@ -116,7 +116,9 @@ events, currently only `input.heard` and `output.reply` are supported.
 | ---- |----- |---- | ----------- | ------------ | --- |
 | HTTP Api | Client | api-http | Provides a generic HTTP API for external clients. | `npm install matueranet/genie-router-plugin-api-http` | [genie-router-plugin-api-http](https://github.com/matueranet/genie-router-plugin-api-http) |
 | Brain Mentions | BrainSelector | brain-mentions | selects a brain if its name is mentioned in the first words of an input, or an alias is defined | `npm install matueranet/genie-router-plugin-brain-mentions` | [genie-router-plugin-brain-mentions](https://github.com/matueranet/genie-router-plugin-brain-mentions) |
+| Google Assistant | Brain | google-assistant | Enables google-assistant to supply the answers in genie-router  | `npm install matueranet/genie-router-plugin-google-assistant` | [genie-router-plugin-google-assistant](https://github.com/matueranet/genie-router-plugin-google-assistant) |
 | Telegram Bot | Client | telegram-bot | Enables a bot with the Telegram Bot API for input/output.  | `npm install matueranet/genie-router-plugin-telegram-bot` | [genie-router-plugin-telegram-bot](https://github.com/matueranet/genie-router-plugin-telegram-bot) |
+| Web Client | Client | web-client | Provides a webpage where input can be send  | `npm install matueranet/genie-router-plugin-web-client` | [genie-router-plugin-web-client](https://github.com/matueranet/genie-router-plugin-web-client) |
 | Rivescript | Brain | rivescript | Allows genie-router to use rivescript as a brain. | `npm install matueranet/genie-router-plugin-rivescript` | [genie-router-plugin-rivescript](https://github.com/matueranet/genie-router-plugin-rivescript) |
 | Facebook Messenger | Client | facebook-messenger | Enables the use of FB Messenger as a client. | `npm install matueranet/genie-router-plugin-facebook-messenger` | [genie-router-plugin-facebook-messenger](https://github.com/matueranet/genie-router-plugin-facebook-messenger) |
 | Dialogflow (Api.ai) | Brain | dialogflow | Use [Dialogflow](https://dialogflow.com) as a brain to handle input | `npm install matueranet/genie-router-plugin-dialogflow` | [genie-router-plugin-dialogflow](https://github.com/matueranet/genie-router-plugin-dialogflow) |
