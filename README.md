@@ -89,9 +89,24 @@ When http is enabled, you can install plugins exposing HTTP urls.
 There is a [HTTP API](https://github.com/matueranet/genie-router-plugin-api-http) plugin available that
 exposes a way for external clients to send a message using genie-router.
 
+## Brains
+
+`defaultBrain` is the brain that should be selected by default when no _brainSelector_ returns a brain suggestion. The
+`brainStickiness` is the time period (in seconds) when a previously selected brain in a client overrides the configured default brain.
+The default value for the stickiness is 120 seconds.
+
+A small example to explain it some more:
+
+1. The brain-mentions plugin is used to be able to select a different brain by using its name
+2. The default brain is _echo_, but the _google-assistant_ is also used.
+3. When the user inputs something, the input is simply echood by the _echo_ plugin
+4. The user types _ask google-assistant what is so special about 42?_
+5. The stickiness of the brain now dictates that any input received that is not picked up
+by a brainSelector is then handled by the _google_assistant_ plugin, not the default _echo_.
+
 # Plugins
 
-Plugins can be installed by running `npm install <plugin-identifier>` in the plugins
+Plugins can be installed by running `npm install --save <plugin-identifier>` in the plugins
 folder. Then create an entry in the `config.json` file in the `plugins` attribute with
 the key of the plugin. Include any additional configuration information as explained
 in the plugin readme.

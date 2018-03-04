@@ -12,7 +12,7 @@ class Router {
   constructor (config) {
     this.config = config
     this.httpEnabled = false
-    this.brainSelector = new BrainSelector(config.defaultBrain)
+    this.brainSelector = new BrainSelector(config.defaultBrain, getFromObject(config, 'brainStickiness', 120))
     this.eventEmitter = new EventEmitter()
     this.pluginLoader = new PluginLoader(config, this._getClientStartObjects.bind(this), this.brainSelector, this.eventEmitter)
   }
