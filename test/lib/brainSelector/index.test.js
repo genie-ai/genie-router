@@ -12,12 +12,13 @@ describe('BrainSelector', function () {
    * Will set the brainSelector variable to an instance of the BrainSelector class.
    */
   beforeEach(function () {
-    brainSelector = new BrainSelector('default')
+    brainSelector = new BrainSelector('default', 120)
   })
 
   describe('constructor', function () {
     it('should set the defaultBrain on the constructor', function () {
       assert.equal('default', brainSelector.defaultBrain, 'Default brain not set to default')
+      assert.equal(120, brainSelector.brainStickiness, 'Brain stickiness not set to 120')
     })
   })
 
@@ -56,10 +57,47 @@ describe('BrainSelector', function () {
 
       brainSelector.use('test', selector)
 
-      return brainSelector.getBrainForInput({input: 'heard'})
+      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
        .then(function (brain) {
          assert.deepEqual(selectedBrain, brain)
+         assert.equal(1, Object.keys(brainSelector.lastSelectedBrainsPerClient).length, 'Plugin not stored in lastSelectedBrainsPerClient.')
+         assert.notEqual(undefined, brainSelector.lastSelectedBrainsPerClient.test)
        })
+       .catch(function () {
+         throw new Error('Catch is not expected.')
+       })
+    })
+
+    it('should use a sticky brain if there is one for the client', function () {
+      let stickyBrain = {process: noop, start: noop}
+      brainSelector.lastSelectedBrainsPerClient.test = {now: (new Date()).getTime() / 1000, brain: stickyBrain}
+      let selector = function () { return Promise.resolve(stickyBrain) }
+
+      let defaultSelectorStub = sinon.mock().never()
+      brainSelector.defaultSelector = defaultSelectorStub
+
+      brainSelector.use('test', selector)
+
+      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
+       .then(function (brain) {
+         assert.deepEqual(stickyBrain, brain, 'the returned brain is not the sticky brain.')
+       })
+       .catch(function () {
+         throw new Error('Catch is not expected.')
+       })
+    })
+
+    it('should skip a sticky brain if it was selected too long ago', function () {
+      let stickyBrain = {process: noop, start: noop}
+      brainSelector.lastSelectedBrainsPerClient.test = {now: 5, brain: stickyBrain}
+      let selector = function () { return Promise.resolve(stickyBrain) }
+
+      let defaultSelectorStub = sinon.mock().once()
+      brainSelector.defaultSelector = defaultSelectorStub
+
+      brainSelector.use('test', selector)
+
+      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
        .catch(function () {
          throw new Error('Catch is not expected.')
        })

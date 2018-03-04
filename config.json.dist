@@ -1,5 +1,6 @@
 {
   "defaultBrain": "echo",
+  "brainStickiness": 120,
   "http": {
     "enabled": true,
     "port": 3001
