@@ -1,17 +1,13 @@
 {
-  "defaultBrain": "wit",
-  "httpApi": {
-    "enabled": true,
-    "endpoint": "/api/message",
-    "timeout": 5000,
-    "accessToken": "protection-enabled"
-  },
+  "defaultBrain": "echo",
+  "brainStickiness": 120,
   "http": {
     "enabled": true,
     "port": 3001
   },
   "plugins": {
     "cli-local": {},
-    "echo": {}
+    "echo": {},
+    "brain-mentions": {}
   }
 }
