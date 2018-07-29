@@ -72,6 +72,17 @@ genie-router will not attempt to create it.
 }
 ```
 
+## Storage location
+
+It is possible for plugins to store data persistently, such as authorized sessions and other small amounts
+of data. The data is all stored in a JSON file, namespaced per plugin. By default it is stored in `${USER}/.genie-router/storage.json` but the location of the file can be configured.
+
+```
+"storage": {
+    "location": "/etc/genie-router/store.json"
+}
+```
+
 ## HTTP
 
 To enable HTTP support in general (plugins can use the http library to
