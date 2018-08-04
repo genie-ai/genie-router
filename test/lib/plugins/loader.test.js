@@ -10,12 +10,12 @@ describe('Loader', function () {
   const Loader = require('../../../lib/plugins/loader')
 
   beforeEach(function () {
-    loader = new Loader({configValue: 'a'}, noop, {}, {})
+    loader = new Loader({ configValue: 'a' }, noop, {}, {})
   })
 
   describe('constructor', function () {
     it('should set the config values provided in the constructor', function () {
-      assert.deepEqual({configValue: 'a'}, loader.config)
+      assert.deepEqual({ configValue: 'a' }, loader.config)
     })
   })
 
@@ -35,7 +35,7 @@ describe('Loader', function () {
 
       loader._checkConfiguredPath = checkConfiguredPath
       loader._useDefaultConfigurationPath = useDefaultConfigurationPath
-      loader.config = {pluginStore: {location: '/etc/genie-router'}}
+      loader.config = { pluginStore: { location: '/etc/genie-router' } }
 
       loader._getPluginStoreLocation()
       assert.ok(checkConfiguredPath.called)
@@ -57,11 +57,11 @@ describe('Loader', function () {
   })
 
   describe('_checkConfiguredPath', function () {
-    it('should check if the path exists', function () {
+    it('should check if the path exists', async function () {
       const statStub = sinon.stub()
-      const Loader = proxyquire('../../../lib/plugins/loader.js', {fs: {stat: statStub, mkdir: sinon.spy(), writeFile: sinon.spy()}})
-      const loader = new Loader({configValue: 'a'}, noop, {}, {})
-      const statResult = {isDirectory: sinon.stub()}
+      const Loader = proxyquire('../../../lib/plugins/loader.js', { fs: { stat: statStub, mkdir: sinon.spy(), writeFile: sinon.spy() } })
+      const loader = new Loader({ configValue: 'a' }, noop, {}, {})
+      const statResult = { isDirectory: sinon.stub() }
       statResult.isDirectory.returns(true)
       statStub.alwaysCalledWithExactly('/etc/genie-router')
       statStub.callsArgWith(1, null, statResult)
@@ -70,36 +70,32 @@ describe('Loader', function () {
       checkPluginLocation.returnsArg(0)
       loader._checkPluginLocation = checkPluginLocation
 
-      loader._checkConfiguredPath('/etc/genie-router')
-        .then(function (configuredPath) {
-          assert.ok(checkPluginLocation.called)
-          // verify the follow-up function is called
-          assert.ok(checkPluginLocation.alwaysCalledWithExactly('/etc/genie-router'))
-          assert.ok(statResult.isDirectory.called)
-        }).catch(function () {
-          assert.ok(false, 'Promise expected to be resolved')
-        })
+      const configuredPath = await loader._checkConfiguredPath('/etc/genie-router')
+      assert.ok(checkPluginLocation.called)
+      // verify the follow-up function is called
+      assert.ok(checkPluginLocation.alwaysCalledWithExactly('/etc/genie-router'))
+      assert.ok(statResult.isDirectory.called)
     })
 
-    it('should fail if the path isn\'t a directory', function () {
+    it('should fail if the path isn\'t a directory', async function () {
       const statStub = sinon.stub()
-      const Loader = proxyquire('../../../lib/plugins/loader.js', {fs: {stat: statStub, mkdir: sinon.spy(), writeFile: sinon.spy()}})
-      const loader = new Loader({configValue: 'a'}, noop, {}, {})
-      const statResult = {isDirectory: sinon.stub()}
+      const Loader = proxyquire('../../../lib/plugins/loader.js', { fs: { stat: statStub, mkdir: sinon.spy(), writeFile: sinon.spy() } })
+      const loader = new Loader({ configValue: 'a' }, noop, {}, {})
+      const statResult = { isDirectory: sinon.stub() }
       statResult.isDirectory.returns(false)
       statStub.alwaysCalledWithExactly('/etc/genie-router')
       statStub.callsArgWith(1, null, statResult)
 
       const checkPluginLocation = sinon.spy()
 
-      return loader._checkConfiguredPath('/etc/genie-router')
-        .then(function (configuredPath) {
-          assert.ok(false, 'Promise expected to be rejected')
-        }).catch(function (error) {
+      try {
+        await loader._checkConfiguredPath('/etc/genie-router')
+        assert.ok(false, 'Promise expected to be rejected')
+      } catch(error) {
           assert.ok(!checkPluginLocation.called)
           assert.ok(statResult.isDirectory.called)
           assert.equal('Configured pluginStore location is not a directory.', error.message)
-        })
+      }
     })
   })
 })

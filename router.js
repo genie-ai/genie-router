@@ -17,31 +17,30 @@ class Router {
     this.pluginLoader = new PluginLoader(config, this._getClientStartObjects.bind(this), this.brainSelector, this.eventEmitter)
   }
 
-  start () {
-    return this._startHttp()
-      .then(() => {
-        return this.pluginLoader.setHttpEnabled(this.httpEnabled)
-      })
-      .then(this.pluginLoader.startPlugins.bind(this.pluginLoader))
-      .catch((err) => {
+  async start () {
+    try {
+      await this._startHttp()
+      await this.pluginLoader.setHttpEnabled(this.httpEnabled)
+      await this.pluginLoader.startPlugins()
+    } catch(err) {
         console.error('Error initializing', err)
-      })
+        process.exit(10);
+    }
   }
 
-  _getClientStartObjects (clientPluginName, plugin) {
-    const that = this
-    return {
-      heard: function (message) {
-        that._processHeardInput(
+  _getClientStartObjects (clientPluginName) {
+    return { // TODO create an object model
+      heard: (message) => {
+        this._processHeardInput(
           {
             plugin: clientPluginName,
             message: message
           },
           (message) => {
-            // We cannot use this function directly, because the object that.clients[clientPluginName]
+            // We cannot use this function directly, because the object this.clients[clientPluginName]
             // is not set yet when we create this startObject.
-            that.eventEmitter.emit('output.reply', clientPluginName, message)
-            that.pluginLoader.getClients()[clientPluginName].speak(message)
+            this.eventEmitter.emit('output.reply', clientPluginName, message)
+            this.pluginLoader.getClients()[clientPluginName].speak(message)
           }
         )
       }
@@ -53,24 +52,26 @@ class Router {
    * @param Object   input         An object with an attribute message.
    * @param function speakCallback The function to invoke with the reply from the brain.
    */
-  _processHeardInput (input, speakCallback) {
+  async _processHeardInput (input, speakCallback) {
     this.eventEmitter.emit('input.heard', input.plugin, input.message)
-    return this.brainSelector.getBrainForInput(input)
-      .then((selectedInfo) => {
-        let brain = selectedInfo.brain
-        if (selectedInfo.input) {
-          input = selectedInfo.input
-        }
-        return brain.process(input.message)
-      }).then(function (output) {
-        var outputClone = JSON.parse(JSON.stringify(output))
-        outputClone.metadata = input.message.metadata
-        outputClone.sessionId = input.message.sessionId ? input.message.sessionId : null
-        outputClone.userId = input.message.userId ? input.message.userId : null
-        return speakCallback(outputClone)
-      }).catch((err) => {
+
+    try {
+      const selectedInfo = await this.brainSelector.getBrainForInput(input);
+
+      let brain = selectedInfo.brain
+      if (selectedInfo.input) {
+        input = selectedInfo.input
+      }
+      const output = await brain.process(input.message)
+
+      var outputClone = Object.assign({}, output);
+      outputClone.metadata = input.message.metadata
+      outputClone.sessionId = input.message.sessionId ? input.message.sessionId : null
+      outputClone.userId = input.message.userId ? input.message.userId : null
+      return speakCallback(outputClone)
+    } catch(err) {
         debug('Unable to process input %s: %s', JSON.stringify(input), err + '')
-      })
+    }
   }
 
   /**

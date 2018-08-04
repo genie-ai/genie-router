@@ -48,7 +48,7 @@ describe('BrainSelector', function () {
   })
 
   describe('getBrainForInput', function () {
-    it('should select a matching promise', function () {
+    it('should select a matching promise', async function () {
       let selectedBrain = {process: noop, start: noop}
       let selector = function () { return Promise.resolve(selectedBrain) }
 
@@ -57,18 +57,13 @@ describe('BrainSelector', function () {
 
       brainSelector.use('test', selector)
 
-      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
-       .then(function (brain) {
-         assert.deepEqual(selectedBrain, brain)
-         assert.equal(1, Object.keys(brainSelector.lastSelectedBrainsPerClient).length, 'Plugin not stored in lastSelectedBrainsPerClient.')
-         assert.notEqual(undefined, brainSelector.lastSelectedBrainsPerClient.test)
-       })
-       .catch(function () {
-         throw new Error('Catch is not expected.')
-       })
+      const brain = await brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
+      assert.deepEqual(selectedBrain, brain)
+      assert.equal(1, Object.keys(brainSelector.lastSelectedBrainsPerClient).length, 'Plugin not stored in lastSelectedBrainsPerClient.')
+      assert.notEqual(undefined, brainSelector.lastSelectedBrainsPerClient.test)
     })
 
-    it('should use a sticky brain if there is one for the client', function () {
+    it('should use a sticky brain if there is one for the client', async function () {
       let stickyBrain = {process: noop, start: noop}
       brainSelector.lastSelectedBrainsPerClient.test = {now: (new Date()).getTime() / 1000, brain: stickyBrain}
       let selector = function () { return Promise.resolve(stickyBrain) }
@@ -78,16 +73,11 @@ describe('BrainSelector', function () {
 
       brainSelector.use('test', selector)
 
-      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
-       .then(function (brain) {
-         assert.deepEqual(stickyBrain, brain, 'the returned brain is not the sticky brain.')
-       })
-       .catch(function () {
-         throw new Error('Catch is not expected.')
-       })
+      const brain = await brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
+      assert.deepEqual(stickyBrain, brain, 'the returned brain is not the sticky brain.')
     })
 
-    it('should skip a sticky brain if it was selected too long ago', function () {
+    it('should skip a sticky brain if it was selected too long ago', async function () {
       let stickyBrain = {process: noop, start: noop}
       brainSelector.lastSelectedBrainsPerClient.test = {now: 5, brain: stickyBrain}
       let selector = function () { return Promise.resolve(stickyBrain) }
@@ -97,10 +87,7 @@ describe('BrainSelector', function () {
 
       brainSelector.use('test', selector)
 
-      return brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
-       .catch(function () {
-         throw new Error('Catch is not expected.')
-       })
+      await brainSelector.getBrainForInput({input: 'heard', plugin: 'test'})
     })
 
     it('should fallback to defaultSelector if there is no middleware', function () {
@@ -112,19 +99,14 @@ describe('BrainSelector', function () {
       assert.ok(defaultSelectorStub.calledWithExactly(sinon.match.any, {input: 'heard'}))
     })
 
-    it('should fallback to defaultSelector if there are no matches', function () {
+    it('should fallback to defaultSelector if there are no matches', async function () {
       let defaultSelectorStub = sinon.stub()
       brainSelector.defaultSelector = defaultSelectorStub
       brainSelector.selectors = [() => { return Promise.reject() }]
 
-      brainSelector.getBrainForInput({input: 'heard'})
-        .then(function () {
-          assert.ok(defaultSelectorStub.calledOnce)
-          assert.ok(defaultSelectorStub.calledWithExactly(sinon.match.any, {input: 'heard'}))
-        })
-        .catch(function () {
-          assert.ok(false, 'Expected promise to resolve.')
-        })
+      await brainSelector.getBrainForInput({input: 'heard'})
+      assert.ok(defaultSelectorStub.calledOnce)
+      assert.ok(defaultSelectorStub.calledWithExactly(sinon.match.any, {input: 'heard'}))
     })
   })
 })

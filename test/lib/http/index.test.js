@@ -32,35 +32,31 @@ describe('http()', function () {
     )
   })
 
-  it('should initialize express and bodyparser', function () {
+  it('should initialize express and bodyparser', async function () {
     // set up Express mock
     const listenSpy = sinon.spy()
     const useSpy = sinon.spy()
     expressStub.returns({listen: listenSpy, use: useSpy})
 
-    let promise = http({port: 80})
-    return promise.then(() => {
-      assert.ok(bodyParserStub.alwaysCalledWithExactly({type: 'application/json'}))
-      assert.ok(listenSpy.calledOnce)
-      assert.ok(listenSpy.alwaysCalledWith(80))
-      assert.ok(useSpy.calledOnce)
-    })
+    await http({port: 80})
+
+    assert.ok(bodyParserStub.alwaysCalledWithExactly({type: 'application/json'}))
+    assert.ok(listenSpy.calledOnce)
+    assert.ok(listenSpy.alwaysCalledWith(80))
+    assert.ok(useSpy.calledOnce)
   })
 
-  it('should immediately return app when already initialized', function () {
+  it('should immediately return app when already initialized', async function () {
     // set up Express mock
     const listenSpy = sinon.spy()
     const useSpy = sinon.spy()
     expressStub.returns({listen: listenSpy, use: useSpy})
 
-    return http({port: 80})
-      .then(function (app) {
-        // call http again and assert that the expressStub is only invoked once.
-        http()
-          .then(function (app2) {
-            assert.deepEqual(app, app2)
-            assert.ok(useSpy.calledOnce)
-          })
-      })
+    const app = await http({port: 80})
+
+    // call http again and assert that the expressStub is only invoked once.
+    const app2 = await http()
+    assert.deepEqual(app, app2)
+    assert.ok(useSpy.calledOnce)
   })
 })
