@@ -1,12 +1,10 @@
-
-
-const getFromObject = require('./lib/utils/getFromObject');
 const Promise = require('bluebird');
+const debug = require('debug')('genie-router::router');
+const EventEmitter = require('events');
+const getFromObject = require('./lib/utils/getFromObject');
 const http = require('./lib/http');
 const BrainSelector = require('./lib/brainSelector');
-const debug = require('debug')('genie-router::router');
 const PluginLoader = require('./lib/plugins/loader.js');
-const EventEmitter = require('events');
 
 class Router {
     constructor(config) {
