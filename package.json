@@ -1,5 +1,5 @@
 {
-  "name": "genie-router",
+  "name": "@genie-ai/genie-router",
   "version": "2.0.0-beta",
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/matueranet/genie-router.git"
+    "url": "git+https://github.com/genie-ai/genie-router.git"
   },
   "engines": {
     "node": ">=8.10"
