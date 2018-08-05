@@ -40,22 +40,21 @@
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.2",
-    "debug": "^2.6.8",
+    "debug": "^3.1.0",
     "express": "^4.15.3",
-    "npm-utils": "^2.0.0",
+    "npm-utils": "^2.0.3",
     "read-config": "^2.0.0",
     "superplug": "^0.2.0",
     "uuid": "^3.1.0",
-    "yargs": "^6.6.0"
+    "yargs": "^12.0.1"
   },
   "devDependencies": {
     "eslint": "^4.19.1",
-    "eslint-config-airbnb-base": "^12.1.0",
+    "eslint-config-airbnb-base": "^13.0.0",
     "eslint-plugin-import": "^2.9.0",
-    "coveralls": "^2.13.1",
-    "mocha": "^3.4.2",
-    "nodemon": "^1.11.0",
-    "proxyquire": "^1.8.0",
-    "sinon": "^4.2.2"
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.3",
+    "proxyquire": "^2.0.1",
+    "sinon": "^6.1.4"
   }
 }

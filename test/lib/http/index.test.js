@@ -26,8 +26,8 @@ describe('http()', () => {
 
         // Run test
         const promise = http({ port: 80 });
-        assert.ok(typeof promise.then === 'function' &&
-      typeof promise.catch === 'function');
+        assert.ok(typeof promise.then === 'function'
+            && typeof promise.catch === 'function');
     });
 
     it('should initialize express and bodyparser', async () => {

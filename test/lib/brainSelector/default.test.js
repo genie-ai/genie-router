@@ -1,7 +1,7 @@
 /* global describe, it, beforeEach */
 
-const noop = require('../../../lib/utils/noop');
 const assert = require('assert');
+const noop = require('../../../lib/utils/noop');
 
 describe('brainSelector/default', () => {
     let defaultFn = null;
@@ -16,8 +16,8 @@ describe('brainSelector/default', () => {
 
     it('should return a Promise that resolves to a function', async () => {
         const output = defaultFn('default');
-        assert.ok(typeof output.then === 'function' &&
-      typeof output.catch === 'function');
+        assert.ok(typeof output.then === 'function'
+            && typeof output.catch === 'function');
 
         try {
             const promiseResult = await output;
