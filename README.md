@@ -1,7 +1,7 @@
 genie-router
 =============
 
-[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router) [![Standard - JavaScript Style Guide](https://img.shields.io/badge/code%20style-standard-brightgreen.svg)](http://standardjs.com/)
+[![Build Status](https://travis-ci.org/genie-ai/genie-router.svg?branch=develop)](https://travis-ci.org/genie-ai/genie-router)
 
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
 Functionality is added via plugins, checkout the **Plugins** section for more information.
@@ -168,4 +168,4 @@ Create container by running:
 
 To keep the tests continuously running, create the container below:
 
-    docker run --name genie-router-test -v `pwd`:/home/app -v /home/app/node_modules genie-router ./node_modules/.bin/nodemon ./node_modules/.bin/standard
+    docker run --name genie-router-test -v `pwd`:/home/app -v /home/app/node_modules genie-router npm nodemon-test
