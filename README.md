@@ -1,7 +1,7 @@
 genie-router
 =============
 
-[![Build Status](https://travis-ci.org/matueranet/genie-router.svg?branch=develop)](https://travis-ci.org/matueranet/genie-router)
+[![Build Status](https://travis-ci.org/genie-ai/genie-router.svg?branch=develop)](https://travis-ci.org/genie-ai/genie-router)
 
 A generic platform that routes commands and conversations from voice or text-based clients to 3rd party backends.
 Functionality is added via plugins, checkout the **Plugins** section for more information.
