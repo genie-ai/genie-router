@@ -4,12 +4,11 @@
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
   "scripts": {
-    "test": "eslint . && istanbul cover --include-all-sources true _mocha test/**/*.test.js --reporter=\"lcovonly html\" -- -R spec",
-    "coverage-report": "cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js",
+    "test": "eslint . && _mocha test/**/*.test.js",
     "start": "DEBUG=genie-router* ./bin/genie-router -c ./config.json",
     "nodemon": "DEBUG=genie-router* nodemon ./bin/genie-router -c ./config.json",
     "nodemon-test": "nodemon ./node_modules/.bin/mocha test/**/*.test.js",
-    "standard-fix": "standard --fix"
+    "eslint-fix": "eslint . --fix"
   },
   "repository": {
     "type": "git",
@@ -54,9 +53,7 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.9.0",
     "coveralls": "^2.13.1",
-    "istanbul": "^0.4.5",
     "mocha": "^3.4.2",
-    "mocha-lcov-reporter": "^1.3.0",
     "nodemon": "^1.11.0",
     "proxyquire": "^1.8.0",
     "sinon": "^4.2.2"
