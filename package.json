@@ -1,5 +1,5 @@
 {
-  "name": "@genie-ai/genie-router",
+  "name": "genie-router",
   "version": "2.0.0",
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
@@ -34,9 +34,9 @@
   "author": "matueranet",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/matueranet/genie-router/issues"
+    "url": "https://github.com/genie-ai/genie-router/issues"
   },
-  "homepage": "https://github.com/matueranet/genie-router#readme",
+  "homepage": "https://github.com/genie-ai/genie-router#readme",
   "dependencies": {
     "bluebird": "^3.5.1",
     "body-parser": "^1.17.2",
