@@ -1,6 +1,6 @@
 {
-  "name": "genie-router",
-  "version": "2.0.1",
+  "name": "@genie-ai/genie-router",
+  "version": "3.0.0",
   "description": "A generic platform that will route commands and conversations from voice or text-based clients to 3rd party backends.",
   "main": "router.js",
   "scripts": {
