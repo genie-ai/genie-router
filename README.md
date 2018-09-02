@@ -22,12 +22,12 @@ genie-router and its plugins must be configured with the configuration file. It 
 
     genie-router -c config.json
 
-See [config.json.dist](https://github.com/matueranet/genie-router/blob/develop/config.json.dist) for more details.
+See [config.json.dist](https://github.com/genie-ai/genie-router/blob/develop/config.json.dist) for more details.
 
 ## Via git
 
 ```
-git clone https://github.com/matueranet/genie-router.git
+git clone https://github.com/genie-ai/genie-router.git
 cd genie-router
 npm install
 ```
@@ -97,7 +97,7 @@ handle HTTP requests themselves), add a `http` attribute to the config:
 You need to set `enabled` to `true` and configure the port on which to listen on. The default is 3001.
 When http is enabled, you can install plugins exposing HTTP urls.
 
-There is a [HTTP API](https://github.com/matueranet/genie-router-plugin-api-http) plugin available that
+There is a [HTTP API](https://github.com/genie-ai/genie-router-plugin-api-http) plugin available that
 exposes a way for external clients to send a message using genie-router.
 
 ## Brains
@@ -128,8 +128,8 @@ See the cli-local or echo plugins for simple examples.
 
 ## Types
 
-There are four types of plugins, clients, brains, listeners and brain selectors. One plugin must
-be at least one of these three types, but an also be a combination of them.
+There are four types of plugins: clients, brains, listeners and brain selectors. One plugin must
+be at least one of these four types, but can also be a combination of them.
 
 A client takes input and echoes the resulting output. A brain takes text as input,
 does something with it, and returns an output. Brain selectors parse the input text
@@ -140,32 +140,17 @@ events, currently only `input.heard` and `output.reply` are supported.
 
 | Name | Type | Key | Description | Installation | URL |
 | ---- |----- |---- | ----------- | ------------ | --- |
-| HTTP Api | Client | api-http | Provides a generic HTTP API for external clients. | `npm install matueranet/genie-router-plugin-api-http` | [genie-router-plugin-api-http](https://github.com/matueranet/genie-router-plugin-api-http) |
-| Brain Mentions | BrainSelector | brain-mentions | selects a brain if its name is mentioned in the first words of an input, or an alias is defined | `npm install matueranet/genie-router-plugin-brain-mentions` | [genie-router-plugin-brain-mentions](https://github.com/matueranet/genie-router-plugin-brain-mentions) |
-| Google Assistant | Brain | google-assistant | Enables google-assistant to supply the answers in genie-router  | `npm install matueranet/genie-router-plugin-google-assistant` | [genie-router-plugin-google-assistant](https://github.com/matueranet/genie-router-plugin-google-assistant) |
-| Telegram Bot | Client | telegram-bot | Enables a bot with the Telegram Bot API for input/output.  | `npm install matueranet/genie-router-plugin-telegram-bot` | [genie-router-plugin-telegram-bot](https://github.com/matueranet/genie-router-plugin-telegram-bot) |
-| Web Client | Client | web-client | Provides a webpage where input can be send  | `npm install matueranet/genie-router-plugin-web-client` | [genie-router-plugin-web-client](https://github.com/matueranet/genie-router-plugin-web-client) |
-| Rivescript | Brain | rivescript | Allows genie-router to use rivescript as a brain. | `npm install matueranet/genie-router-plugin-rivescript` | [genie-router-plugin-rivescript](https://github.com/matueranet/genie-router-plugin-rivescript) |
-| Facebook Messenger | Client | facebook-messenger | Enables the use of FB Messenger as a client. | `npm install matueranet/genie-router-plugin-facebook-messenger` | [genie-router-plugin-facebook-messenger](https://github.com/matueranet/genie-router-plugin-facebook-messenger) |
-| Dialogflow (Api.ai) | Brain | dialogflow | Use [Dialogflow](https://dialogflow.com) as a brain to handle input | `npm install matueranet/genie-router-plugin-dialogflow` | [genie-router-plugin-dialogflow](https://github.com/matueranet/genie-router-plugin-dialogflow) |
-| Dashbot | Listener | dashbot | Log transcripts to [dashbot.io](https://dashbot.io) | `npm install matueranet/genie-router-plugin-dashbot` | [genie-router-plugin-dashbot](https://github.com/matueranet/genie-router-plugin-dashbot) |
-| Sentry | HTTP | sentry | Log any error to [sentry.io](https://sentry.io) | `npm install matueranet/genie-router-plugin-sentry` | [genie-router-plugin-sentry](https://github.com/matueranet/genie-router-plugin-sentry) |
-| CLI Local | Client | cli-local | Send input in the terminal where genie-router was started | `npm install matueranet/genie-router-plugin-cli-local` | [genie-router-plugin-cli-local](https://github.com/matueranet/genie-router-plugin-cli-local) |
-| Echo | Brain | echo | Echoes all input back | `npm install matueranet/genie-router-plugin-echo` | [genie-router-plugin-echo](https://github.com/matueranet/genie-router-plugin-echo) |
-| Gladys | Brain | gladys | Use [Gladys](https://gladysproject.com) to process input | `npm install matueranet/genie-router-plugin-gladys` | [genie-router-plugin-gladys](https://github.com/matueranet/genie-router-plugin-gladys) |
+| HTTP Api | Client | api-http | Provides a generic HTTP API for external clients. | `npm install @genie-ai/genie-router-plugin-api-http` | [genie-router-plugin-api-http](https://github.com/genie-ai/genie-router-plugin-api-http) |
+| Brain Mentions | BrainSelector | brain-mentions | selects a brain if its name is mentioned in the first words of an input, or an alias is defined | `npm install @genie-ai/genie-router-plugin-brain-mentions` | [genie-router-plugin-brain-mentions](https://github.com/genie-ai/genie-router-plugin-brain-mentions) |
+| Google Assistant | Brain | google-assistant | Enables google-assistant to supply the answers in genie-router  | `npm install @genie-ai/genie-router-plugin-google-assistant` | [genie-router-plugin-google-assistant](https://github.com/genie-ai/genie-router-plugin-google-assistant) |
+| Telegram Bot | Client | telegram-bot | Enables a bot with the Telegram Bot API for input/output.  | `npm install @genie-ai/genie-router-plugin-telegram-bot` | [genie-router-plugin-telegram-bot](https://github.com/genie-ai/genie-router-plugin-telegram-bot) |
+| Web Client | Client | web-client | Provides a webpage where input can be send  | `npm install @genie-ai/genie-router-plugin-web-client` | [genie-router-plugin-web-client](https://github.com/genie-ai/genie-router-plugin-web-client) |
+| Rivescript | Brain | rivescript | Allows genie-router to use rivescript as a brain. | `npm install @genie-ai/genie-router-plugin-rivescript` | [genie-router-plugin-rivescript](https://github.com/genie-ai/genie-router-plugin-rivescript) |
+| Facebook Messenger | Client | facebook-messenger | Enables the use of FB Messenger as a client. | `npm install @genie-ai/genie-router-plugin-facebook-messenger` | [genie-router-plugin-facebook-messenger](https://github.com/genie-ai/genie-router-plugin-facebook-messenger) |
+| Dialogflow (Api.ai) | Brain | dialogflow | Use [Dialogflow](https://dialogflow.com) as a brain to handle input | `npm install @genie-ai/genie-router-plugin-dialogflow` | [genie-router-plugin-dialogflow](https://github.com/genie-ai/genie-router-plugin-dialogflow) |
+| Dashbot | Listener | dashbot | Log transcripts to [dashbot.io](https://dashbot.io) | `npm install @genie-ai/genie-router-plugin-dashbot` | [genie-router-plugin-dashbot](https://github.com/genie-ai/genie-router-plugin-dashbot) |
+| Sentry | HTTP | sentry | Log any error to [sentry.io](https://sentry.io) | `npm install @genie-ai/genie-router-plugin-sentry` | [genie-router-plugin-sentry](https://github.com/genie-ai/genie-router-plugin-sentry) |
+| CLI Local | Client | cli-local | Send input in the terminal where genie-router was started | `npm install @genie-ai/genie-router-plugin-cli-local` | [genie-router-plugin-cli-local](https://github.com/genie-ai/genie-router-plugin-cli-local) |
+| Echo | Brain | echo | Echoes all input back | `npm install @genie-ai/genie-router-plugin-echo` | [genie-router-plugin-echo](https://github.com/genie-ai/genie-router-plugin-echo) |
 
-Want your plugin added here? Update the readme and create a [Pull Request](https://github.com/matueranet/genie-router/pulls).
-
-# Docker
-
-Build image by running:
-
-    docker build -t genie-router .
-
-Create container by running:
-
-    docker run --name genie-router -v `pwd`:/home/app -v /home/app/node_modules genie-router npm start
-
-To keep the tests continuously running, create the container below:
-
-    docker run --name genie-router-test -v `pwd`:/home/app -v /home/app/node_modules genie-router npm nodemon-test
+Want your plugin added here? Update the readme and create a [Pull Request](https://github.com/genie-ai/genie-router/pulls).
